@@ -8,6 +8,7 @@ using namespace std;
 
 int main() {
 	int state = 0;
+
 	int isDraw[3] = {};
 	int userInput = 0;
 
