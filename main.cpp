@@ -7,97 +7,85 @@
 using namespace std;
 
 int main() {
-	//1970年時点の山手線
-	const char* yamanoteLine[28] = {
-		"Tokyo",
-		"Kanda",
-		"Akihabara",
-		"Okachimachi",
-		"Ueno",
-		"Uguisudani",
-		"Nippori",
-		"Tabata",
-		"Komagome",
-		"Sugamo",
-		"Ootuka",
-		"Ikebukuro",
-		"Mejiro",
-		"Takadanobaba",
-		"Sinookubo",
-		"Sinjyuku",
-		"Yoyogi",
-		"Harajyuku",
-		"Sibuya",
-		"Ebisu",
-		"Meguro",
-		"Gotanda",
-		"Oosaki",
-		"Sinagawa",
-		"Tamachi",
-		"Hamamatucyou",
-		"Sinbasi",
-		"Yuurakucyou",
-	};
+	int state = 0;
+	int isDraw[3] = {};
+	int userInput = 0;
 
-	//山手線のリスト
-	list<const char*> lst(28);
-	auto itr = lst.begin();
-	for (int i = 0; i < 28; i++) {
+	while (true)
+	{
+		
+		if (state == 0) {
+			system("cls");
+			printf("[要素の操作]\n");
+			printf("1.要素の表示\n");
+			printf("2.要素の挿入\n");
+			printf("3.要素の編集\n");
+			printf("4.要素の削除\n");
+			printf("5.要素の並び替え(オプション)\n");
+			printf("-------------------------------\n");
+			printf("操作を選択して下さい\n");
+			scanf_s("%d", &userInput);
+			state = userInput;
+		}
 
-		*itr = yamanoteLine[i];
-		itr++;
-	}
+		if (state == 1) {
+			
+			if (isDraw[0] == 0) {
+				system("cls");
+				userInput = 0;
+				printf("[要素の表示]\n");
+				printf("1.要素の一覧表示\n");
+				printf("2.順番を指定して要素を表示\n");
+				printf("9.要素操作に戻る\n");
+				printf("\n操作を選択して下さい\n");
+				scanf_s("%d", &userInput);
+				isDraw[0] = 1;
+			}
+			
+			if (userInput == 1) {
+				if (isDraw[1] == 0) {
+					system("cls");
+					printf("[要素の一覧表示]\n");
+					isDraw[1] = 1;
+				}
 
-	//1970年の山手線の表示
-	printf("1970年の山手線\n");
-	for (auto itr = lst.begin(); itr != lst.end(); ++itr) {
+				scanf_s("%d", &userInput);
+			}
 
-		cout << *itr << "\n";
-		printf("  |\n");
-	}
+			if (userInput == 2) {
+				if (isDraw[2] == 0) {
+					system("cls");
+					printf("[順番を指定して要素を表示]\n");
+					isDraw[2] = 1;
+				}
 
-	printf("--------------------------\n");
-	printf("1971年、西日暮里駅開業！\n");
-	printf("--------------------------\n");
+			}
 
-	//西日暮里駅の挿入
-	for (list<const char*>::iterator itr = lst.begin(); itr != lst.end(); ++itr) {
+			if (userInput == 9) {
+				isDraw[0] = 0;
+				isDraw[1] = 0;
+				isDraw[2] = 0;
+				state = 0;
+			}
+		}
 
-		if (*itr == "Tabata") {
-			itr = lst.insert(itr, "Nisi-Nippori");
-			++itr;
+		if (state == 2) {
+			printf("要素の挿入\n");
+		}
+
+		if (state == 3) {
+			printf("要素の表示\n");
+		}
+
+		if (state == 4) {
+			printf("要素の表示\n");
+		}
+
+		if (state == 5) {
+			printf("要素の表示\n");
 		}
 	}
-
-	//2019年の山手線の表示
-	printf("2019年の山手線\n");
-	for (auto itr = lst.begin(); itr != lst.end(); ++itr) {
-
-		cout << *itr << "\n";
-		printf("  |\n");
-	}
-
-	printf("--------------------------------\n");
-	printf("2020年、高輪ゲートウェイ駅開業！\n");
-	printf("--------------------------------\n");
-
-	//高輪ゲートウェイ駅の挿入
-	for (list<const char*>::iterator itr = lst.begin(); itr != lst.end(); ++itr) {
-
-		if (*itr == "Tamachi") {
-			itr = lst.insert(itr, "Takanawa-Gateway");
-			++itr;
-		}
-	}
-
-	//2022年の山手線の表示
-	printf("2022年の山手線\n");
-	for (auto itr = lst.begin(); itr != lst.end(); ++itr) {
-
-		cout << *itr << "\n";
-		printf("  |\n");
-	}
-
+	
 
 	return 0;
 }
