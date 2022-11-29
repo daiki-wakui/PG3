@@ -9,23 +9,33 @@ using namespace std;
 typedef struct cell
 {
 	char str[8];
+	struct cell* prev;
 	struct cell* next;
 }CELL;
 
-
 void create(CELL* head, const char* val);
 void index(CELL* head);
+CELL* getInsertListAddress(CELL* head, int iterator);
 
 int main() {
-
+	int iterator;
 	char str[8];
+	CELL* insertCell;
+	
 	CELL head;
 	head.next = nullptr;
+	head.prev = nullptr;
 
 	while (true)
 	{
+		printf("‰½”Ô–Ú‚ÌƒZƒ‹‚ÌŒã‚ë‚É‘}“ü‚µ‚Ü‚·‚©\n");
+		scanf_s("%d", &iterator);
+
+		printf("‘}“ü‚·‚é•¶Žš—ñ‚Í\n");
 		scanf_s("%s", str, 8);
-		create(&head, str);
+
+		insertCell = getInsertListAddress(&head, iterator);
+		create(insertCell, str);
 		printf("-----------------\n");
 		printf("ƒŠƒXƒg‚Ì•\Ž¦\n");
 		index(&head);
@@ -35,19 +45,22 @@ int main() {
 	return 0;
 }
 
-void create(CELL* head, const char* str)
+void create(CELL* currentCell, const char* str)
 {
-	CELL* newsel;
-	newsel = (CELL*)malloc(sizeof(CELL));
+	CELL* newCell;
+	newCell = (CELL*)malloc(sizeof(CELL));
 
-	strcpy_s(newsel->str, 8, str);
-	newsel->next = nullptr;
+	strcpy_s(newCell->str, 8, str);
 
-	while (head->next != nullptr)
+	newCell->prev = currentCell;
+	newCell->next = currentCell->next;
+
+	if(currentCell->next)
 	{
-		head = head->next;
+		CELL* nextCell = currentCell->next;
+		nextCell->prev = newCell;
 	}
-	head->next = newsel;
+	currentCell->next = newCell;
 }
 
 void index(CELL * head)
@@ -57,4 +70,20 @@ void index(CELL * head)
 		head = head->next;
 		printf("%s\n", head->str);
 	}
+}
+
+CELL* getInsertListAddress(CELL* head, int iterator)
+{
+	for (int i = 0; i < iterator; i++)
+	{
+		if (head->next)
+		{
+			head = head->next;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return head;
 }
