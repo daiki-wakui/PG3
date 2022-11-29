@@ -8,24 +8,24 @@ using namespace std;
 
 typedef struct cell
 {
-	int vel;
+	char str[8];
 	struct cell* next;
 }CELL;
 
 
-void create(CELL* head, int val);
+void create(CELL* head, const char* val);
 void index(CELL* head);
 
 int main() {
 
-	int val;
+	char str[8];
 	CELL head;
 	head.next = nullptr;
 
 	while (true)
 	{
-		scanf_s("%d", &val);
-		create(&head, val);
+		scanf_s("%s", str, 8);
+		create(&head, str);
 		printf("-----------------\n");
 		printf("ƒŠƒXƒg‚Ì•\¦\n");
 		index(&head);
@@ -35,19 +35,18 @@ int main() {
 	return 0;
 }
 
-void create(CELL* head, int val)
+void create(CELL* head, const char* str)
 {
 	CELL* newsel;
 	newsel = (CELL*)malloc(sizeof(CELL));
 
-	newsel->vel = val;
+	strcpy_s(newsel->str, 8, str);
 	newsel->next = nullptr;
 
 	while (head->next != nullptr)
 	{
 		head = head->next;
 	}
-
 	head->next = newsel;
 }
 
@@ -56,6 +55,6 @@ void index(CELL * head)
 	while (head->next != nullptr)
 	{
 		head = head->next;
-		printf("%d\n", head->vel);
+		printf("%s\n", head->str);
 	}
 }
