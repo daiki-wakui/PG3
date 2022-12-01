@@ -327,9 +327,8 @@ void Delete(CELL* head, CELL* insert, int itr)
 		}
 
 		if (p->next == nullptr) {
-			/*insert = p->prev;
 			p->prev->next = nullptr;
-			p->prev = nullptr;*/
+			p->prev = nullptr;
 		}
 		else {
 			p->prev->next = p->next;
