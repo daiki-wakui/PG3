@@ -15,17 +15,17 @@ typedef struct cell
 
 void Create(CELL* head, const char* val);
 void Index(CELL* head);
-int Count(CELL* head,int &iterator);
+int Count(CELL* head,int &listSize);
 void Choice(CELL* head, CELL* insert);
 void Edit(CELL* head,CELL* insert, const char* str);
-void Delete(CELL* head, CELL* insert, int itr, int& listNum);
+void Delete(CELL* head, CELL* insert, int itr, int& listSize);
 CELL* getInsertListAddress(CELL* head, int iterator);
 
 int main() {
 	int iterator;
 	char str[8];
 	CELL* insertCell;
-	int listNum = 0;
+	int listSize = 0;
 
 	CELL head;
 	head.next = nullptr;
@@ -41,12 +41,18 @@ int main() {
 	{
 		
 		if (state == 0) {
+			Count(&head, listSize);
+
 			system("cls");
 			printf("[—v‘f‚Ì‘€ì]\n");
 			printf("1.—v‘f‚Ì•\¦\n");
 			printf("2.—v‘f‚Ì‘}“ü\n");
-			printf("3.—v‘f‚Ì•ÒW\n");
-			printf("4.—v‘f‚Ìíœ\n");
+
+			if (listSize != 0) {
+				printf("3.—v‘f‚Ì•ÒW\n");
+				printf("4.—v‘f‚Ìíœ\n");
+			}
+		
 			printf("5.—v‘f‚Ì•À‚Ñ‘Ö‚¦(ƒIƒvƒVƒ‡ƒ“)\n");
 			printf("-------------------------------\n");
 			printf("‘€ì‚ğ‘I‘ğ‚µ‚Ä‰º‚³‚¢\n");
@@ -80,8 +86,8 @@ int main() {
 
 				printf("}\n");
 
-				Count(&head, listNum);
-				printf("—v‘f” : %d\n", listNum);
+				Count(&head, listSize);
+				printf("—v‘f” : %d\n", listSize);
 
 				printf("\n-------------------------------\n");
 				printf("1.—v‘f‚Ì•\¦‚É–ß‚é\n");
@@ -206,7 +212,7 @@ int main() {
 				scanf_s("%d", &iterator);
 				insertCell = getInsertListAddress(&head, iterator);
 
-				Delete(&head, insertCell, iterator, listNum);
+				Delete(&head, insertCell, iterator, listSize);
 
 				printf("\n-------------------------------\n");
 				printf("9.—v‘f‘€ì‚É–ß‚é\n");
@@ -265,17 +271,17 @@ void Index(CELL* head)
 	}
 }
 
-int Count(CELL* head, int &iterator)
+int Count(CELL* head, int &listSize)
 {
-	iterator = 0;
+	listSize = 0;
 
 	while (head->next != nullptr)
 	{
 		head = head->next;
-		++iterator;
+		++listSize;
 	}
 
-	return iterator;
+	return listSize;
 }
 
 void Choice(CELL* head, CELL* insert)
@@ -306,10 +312,10 @@ void Edit(CELL* head, CELL* insert, const char* str)
 	
 }
 
-void Delete(CELL* head, CELL* insert, int itr, int& listNum)
+void Delete(CELL* head, CELL* insert, int itr, int& listSize)
 {	
 	//—v‘f”‚ÌƒJƒEƒ“ƒg
-	Count(head, listNum);
+	Count(head, listSize);
 
 	CELL* p = head;
 
@@ -321,7 +327,7 @@ void Delete(CELL* head, CELL* insert, int itr, int& listNum)
 	}
 	else {
 
-		if (itr < listNum) {
+		if (itr < listSize) {
 			for (int i = 0; i <= itr; i++) {
 				p = p->next;
 			}
@@ -342,9 +348,6 @@ void Delete(CELL* head, CELL* insert, int itr, int& listNum)
 			printf("w’è‚³‚ê‚½êŠ‚É—v‘f‚Í‚ ‚è‚Ü‚¹‚ñ\n");
 		}
 	}
-
-
-	
 }
 
 CELL* getInsertListAddress(CELL* head, int iterator)
