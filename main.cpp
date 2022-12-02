@@ -317,9 +317,9 @@ void Delete(CELL* head, CELL* insert, int itr)
 	CELL* p = head;
 
 	if (itr == 0) {
-		head = p->next;
-		p->next->prev = nullptr;
-		p->next = nullptr;
+		CELL* q;
+		q = p->next->next;
+		p->next = q;
 	}
 	else {
 		for (int i = 0; i <= itr; i++) {
