@@ -15,16 +15,17 @@ typedef struct cell
 
 void Create(CELL* head, const char* val);
 void Index(CELL* head);
-void Count(CELL* head);
+int Count(CELL* head,int &iterator);
 void Choice(CELL* head, CELL* insert);
 void Edit(CELL* head,CELL* insert, const char* str);
-void Delete(CELL* head, CELL* insert,int itr);
+void Delete(CELL* head, CELL* insert, int itr, int& listNum);
 CELL* getInsertListAddress(CELL* head, int iterator);
 
 int main() {
 	int iterator;
 	char str[8];
 	CELL* insertCell;
+	int listNum = 0;
 
 	CELL head;
 	head.next = nullptr;
@@ -79,7 +80,8 @@ int main() {
 
 				printf("}\n");
 
-				Count(&head);
+				Count(&head, listNum);
+				printf("要素数 : %d\n", listNum);
 
 				printf("\n-------------------------------\n");
 				printf("1.要素の表示に戻る\n");
@@ -198,13 +200,13 @@ int main() {
 			if (isDraw[0] == 0) {
 				system("cls");
 				printf("[要素の削除]\n");
-
+				
 
 				printf("削除する要素の場所を指定してください。\n");
 				scanf_s("%d", &iterator);
 				insertCell = getInsertListAddress(&head, iterator);
 
-				Delete(&head, insertCell, iterator);
+				Delete(&head, insertCell, iterator, listNum);
 
 				printf("\n-------------------------------\n");
 				printf("9.要素操作に戻る\n");
@@ -263,17 +265,17 @@ void Index(CELL* head)
 	}
 }
 
-void Count(CELL* head)
+int Count(CELL* head, int &iterator)
 {
-	int num = 0;
+	iterator = 0;
 
 	while (head->next != nullptr)
 	{
 		head = head->next;
-		++num;
+		++iterator;
 	}
 
-	printf("要素数 : %d\n", num);
+	return iterator;
 }
 
 void Choice(CELL* head, CELL* insert)
@@ -304,15 +306,10 @@ void Edit(CELL* head, CELL* insert, const char* str)
 	
 }
 
-void Delete(CELL* head, CELL* insert, int itr)
-{
-	//head = insert->next;
-	////insert->next = nullptr;
-
-	//while (head->next != nullptr) {
-	//	strcpy_s(head->str, 8, head->next->str);
-	//	head = head->next;
-	//}
+void Delete(CELL* head, CELL* insert, int itr, int& listNum)
+{	
+	//要素数のカウント
+	Count(head, listNum);
 
 	CELL* p = head;
 
@@ -320,26 +317,34 @@ void Delete(CELL* head, CELL* insert, int itr)
 		CELL* q;
 		q = p->next->next;
 		p->next = q;
+		printf("要素番号 %d番 の削除が完了しました。\n",itr);
 	}
 	else {
-		for (int i = 0; i <= itr; i++) {
-			p = p->next;
-		}
 
-		if (p->next == nullptr) {
-			p->prev->next = nullptr;
-			p->prev = nullptr;
+		if (itr < listNum) {
+			for (int i = 0; i <= itr; i++) {
+				p = p->next;
+			}
+
+			if (p->next == nullptr) {
+				p->prev->next = nullptr;
+				p->prev = nullptr;
+			}
+			else {
+				p->prev->next = p->next;
+				p->next->prev = p->prev;
+				p->next = nullptr;
+				p->prev = nullptr;
+			}
+			printf("要素番号 %d番 の削除が完了しました。\n",itr);
 		}
 		else {
-			p->prev->next = p->next;
-			p->next->prev = p->prev;
-			p->next = nullptr;
-			p->prev = nullptr;
+			printf("指定された場所に要素はありません\n");
 		}
 	}
 
 
-	printf("削除しました。\n");
+	
 }
 
 CELL* getInsertListAddress(CELL* head, int iterator)
