@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <vector>
 #include <iostream>
-#include <list>
 
 using namespace std;
 
@@ -13,35 +11,32 @@ typedef struct cell
 	struct cell* next;
 }CELL;
 
-void Create(CELL* head, const char* val);
-void Index(CELL* head);
-int Count(CELL* head,int &listSize);
-void Choice(CELL* head, CELL* insert);
-void Edit(CELL* head,CELL* insert, const char* str);
-void Delete(CELL* head, CELL* insert, int itr, int& listSize);
-void Replace(CELL* head,int itr1, int itr2, int& listSize);
-CELL* getInsertListAddress(CELL* head, int iterator);
+//自作リストの関数
+void Create(CELL* head, const char* val);				//要素の生成
+void Index(CELL* head);									//一覧表示
+int Count(CELL* head,int &listSize);					//要素数カウント
+void Choice(CELL* head, CELL* insert);					//要素一つを選んで表示
+void Edit(CELL* head,CELL* insert, const char* str);	//要素の編集
+void Delete(CELL* head, int itr, int& listSize);	//要素の削除
+void Replace(CELL* head,int itr1, int itr2, int& listSize);	//要素の並び替え
+CELL* getInsertListAddress(CELL* head, int iterator);	//任意の位置までのアドレスを辿る
 
 int main() {
+	int windowState = 0;
 	int iterator;
+	int listSize = 0;
 	char str[8];
 	CELL* insertCell;
-	int listSize = 0;
-
 	CELL head;
 	head.next = nullptr;
 	head.prev = nullptr;
 
-	int state = 0;
-
-	int isDraw[3] = {};
 	int userInput[3] = {};
-	//char str[16] = {};
-
+	
 	while (true)
 	{
-		
-		if (state == 0) {
+		//初期表示画面
+		if (windowState == 0) {
 			Count(&head, listSize);
 
 			system("cls");
@@ -49,35 +44,33 @@ int main() {
 			printf("1.要素の表示\n");
 			printf("2.要素の挿入\n");
 
+			//要素数が0の時は表示しない
 			if (listSize != 0) {
 				printf("3.要素の編集\n");
 				printf("4.要素の削除\n");
+				printf("5.要素の並び替え(オプション)\n");
 			}
-		
-			printf("5.要素の並び替え(オプション)\n");
+			
 			printf("-------------------------------\n");
 			printf("操作を選択して下さい\n");
 			scanf_s("%d", &userInput[0]);
-			state = userInput[0];
+			windowState = userInput[0];	//入力した値に遷移
 		}
 
+		//要素の表示
+		if (windowState == 1) {
 
-		if (state == 1) {
-			//要素の表示
-			if (isDraw[0] == 0) {
-				system("cls");
-				userInput[0] = 0;
-				printf("[要素の表示]\n");
-				printf("1.要素の一覧表示\n");
-				printf("2.順番を指定して要素を表示\n");
-				printf("9.要素操作に戻る\n");
-				printf("\n操作を選択して下さい\n");
-				scanf_s("%d", &userInput[0]);
-				isDraw[0] = 1;
-			}
+			system("cls");
+			userInput[0] = 0;
+			printf("[要素の表示]\n");
+			printf("1.要素の一覧表示\n");
+			printf("2.順番を指定して要素を表示\n");
+			printf("9.要素操作に戻る\n");
+			printf("\n操作を選択して下さい\n");
+			scanf_s("%d", &userInput[0]);
 
 			//要素の一覧表示
-			if (userInput[0] == 1 && isDraw[1] == 0) {
+			if (userInput[0] == 1) {
 				system("cls");
 				printf("[要素の一覧表示]\n");
 				printf("要素一覧 : {\n");
@@ -87,6 +80,7 @@ int main() {
 
 				printf("}\n");
 
+				//要素数の表示
 				Count(&head, listSize);
 				printf("要素数 : %d\n", listSize);
 
@@ -95,12 +89,10 @@ int main() {
 				printf("2.要素の操作に戻る\n");
 
 				scanf_s("%d", &userInput[1]);
-
-				isDraw[1] = 1;
 			}
 
 			//順番を指定して要素を表示
-			if (userInput[0] == 2&& isDraw[2] == 0) {
+			if (userInput[0] == 2) {
 				system("cls");
 				printf("[順番を指定して要素を表示]\n");
 
@@ -112,142 +104,120 @@ int main() {
 				insertCell = getInsertListAddress(&head, iterator);
 				Choice(&head, insertCell);
 
-
 				printf("\n-------------------------------\n");
 				printf("1.要素の表示に戻る\n");
 				printf("2.要素の操作に戻る\n");
 
 				scanf_s("%d", &userInput[1]);
-
-				isDraw[2] = 1;
 			}
 
-			if (userInput[1] == 1) {
-				isDraw[0] = 0;
-				isDraw[1] = 0;
-				isDraw[2] = 0;
-			}
-
-			//要素操作に戻る
+			//初期画面に戻る
 			if (userInput[0] == 9 || userInput[1] == 2) {
-				isDraw[0] = 0;
-				isDraw[1] = 0;
-				isDraw[2] = 0;
-				state = 0;
+				windowState = 0;
 			}
 		}
 
 		//要素の挿入
-		if (state == 2) {
+		if (windowState == 2) {
 
-			if (isDraw[0] == 0) {
-				system("cls");
-				printf("[リスト要素の挿入]\n");
+			system("cls");
+			printf("[リスト要素の挿入]\n");
 
-				Count(&head, iterator);
-				
-				printf("場所を指定してください。指定しないで文字列を入力すると最後尾に挿入されます。\n");
-				scanf_s("%d", &iterator);
-				
-				printf("追加する要素の文字列を入力してください。\n");
-				scanf_s("%s", str, 8);
-				insertCell = getInsertListAddress(&head, iterator);
-				Create(insertCell, str);
+			//最後尾を取得
+			Count(&head, iterator);
 
-				printf("要素 %s が %d 番目に追加されました。\n", str, iterator);
+			//要素番号の指定
+			printf("場所を指定してください。指定しないで文字列を入力すると最後尾に挿入されます。\n");
+			scanf_s("%d", &iterator);
+
+			//要素の挿入
+			printf("追加する要素の文字列を入力してください。\n");
+			scanf_s("%s", str, 8);
+			insertCell = getInsertListAddress(&head, iterator);
+			Create(insertCell, str);
+
+			printf("要素 %s が %d 番目に追加されました。\n", str, iterator);
 
 
-				printf("\n9.要素操作に戻る\n");
-				scanf_s("%d", &userInput[2]);
-				isDraw[0] = 1;
-			}
+			printf("\n9.要素操作に戻る\n");
+			scanf_s("%d", &userInput[2]);
 			
+			//初期画面に戻る
 			if (userInput[2] == 9) {
-				isDraw[0] = 0;
-				state = 0;
+				windowState = 0;
 			}
 		}
 
 		//要素の編集
-		if (state == 3) {
+		if (windowState == 3) {
 
-			if (isDraw[0] == 0) {
+			system("cls");
+			printf("[要素の編集]\n");
+			printf("編集する要素の場所を指定してください。\n");
+			scanf_s("%d", &iterator);
+			insertCell = getInsertListAddress(&head, iterator);
 
-				system("cls");
-				printf("[要素の編集]\n");
-				printf("編集する要素の場所を指定してください。\n");
-				scanf_s("%d", &iterator);
-				insertCell = getInsertListAddress(&head, iterator);
+			printf("編集後の値を入力してください。\n");
+			scanf_s("%s", str, 8);
 
-				printf("編集後の値を入力してください。\n");
-				scanf_s("%s", str, 8);
+			Edit(&head, insertCell, str);
 
-				Edit(&head, insertCell, str);
+			printf("\n-------------------------------\n");
+			printf("9.要素操作に戻る\n");
+			scanf_s("%d", &userInput[0]);
 
-				printf("\n-------------------------------\n");
-				printf("9.要素操作に戻る\n");
-				scanf_s("%d", &userInput[0]);
-
-				isDraw[0] = 1;
-			}
-
+			//初期画面に戻る
 			if (userInput[0] == 9) {
-				isDraw[0] = 0;
-				state = 0;
+				windowState = 0;
 			}
 		}
 
 		//要素の削除
-		if (state == 4) {
+		if (windowState == 4) {
 
-			if (isDraw[0] == 0) {
-				system("cls");
-				printf("[要素の削除]\n");
-				
+			system("cls");
+			printf("[要素の削除]\n");
 
-				printf("削除する要素の場所を指定してください。\n");
-				scanf_s("%d", &iterator);
-				insertCell = getInsertListAddress(&head, iterator);
+			//削除する場所の指定
+			printf("削除する要素の場所を指定してください。\n");
+			scanf_s("%d", &iterator);
 
-				Delete(&head, insertCell, iterator, listSize);
+			//指定された場所のまで辿って削除
+			Delete(&head, iterator, listSize);
 
-				printf("\n-------------------------------\n");
-				printf("9.要素操作に戻る\n");
-				scanf_s("%d", &userInput[0]);
-
-				isDraw[0] = 1;
-			}
+			printf("\n-------------------------------\n");
+			printf("9.要素操作に戻る\n");
+			scanf_s("%d", &userInput[0]);
 			
+			//初期画面に戻る
 			if (userInput[0] == 9) {
-				isDraw[0] = 0;
-				state = 0;
+				windowState = 0;
 			}
 		}
 
-		if (state == 5) {
-			if (isDraw[0] == 0){
-				system("cls");
-				printf("要素の並び替え\n");
+		//要素の並び替え
+		if (windowState == 5) {
 
-				printf("並び変えたい要素番号を指定してください。\n");
-				printf("一つ目 ");
-				scanf_s("%d", &userInput[0]);
+			system("cls");
+			printf("要素の並び替え\n");
 
-				printf("二つ目 ");
-				scanf_s("%d", &userInput[1]);
+			printf("並び変えたい要素番号を指定してください。\n");
+			printf("一つ目 ");
+			scanf_s("%d", &userInput[0]);
 
-				Replace(&head, userInput[0], userInput[1], listSize);
+			printf("二つ目 ");
+			scanf_s("%d", &userInput[1]);
 
-				printf("\n-------------------------------\n");
-				printf("9.要素操作に戻る\n");
-				scanf_s("%d", &userInput[2]);
+			//入力された二つを並び替える
+			Replace(&head, userInput[0], userInput[1], listSize);
 
-				isDraw[0] = 1;
-			}
+			printf("\n-------------------------------\n");
+			printf("9.要素操作に戻る\n");
+			scanf_s("%d", &userInput[2]);
 			
+			//初期画面に戻る
 			if (userInput[2] == 9) {
-				isDraw[0] = 0;
-				state = 0;
+				windowState = 0;
 			}
 		}
 	}
@@ -255,6 +225,7 @@ int main() {
 	return 0;
 }
 
+//要素の生成
 void Create(CELL* currentCell, const char* str)
 {
 	CELL* newCell;
@@ -273,10 +244,12 @@ void Create(CELL* currentCell, const char* str)
 	currentCell->next = newCell;
 }
 
+//一覧表示
 void Index(CELL* head)
 {
-	int num = 0;
-	int isVoid = true;
+	int num = 0;	//要素の数
+	int isVoid = true;	//まだ何も表示してない
+
 	while (head->next != nullptr)
 	{
 		head = head->next;
@@ -285,16 +258,19 @@ void Index(CELL* head)
 		++num;
 	}
 
+	//要素がなかった場合
 	if (isVoid == true)
 	{
 		printf("要素がありません。\n");
 	}
 }
 
+//最後尾までの要素数を数える
 int Count(CELL* head, int &listSize)
 {
 	listSize = 0;
 
+	//最後尾までの要素数を数える
 	while (head->next != nullptr)
 	{
 		head = head->next;
@@ -304,8 +280,10 @@ int Count(CELL* head, int &listSize)
 	return listSize;
 }
 
+//リストの一部表示
 void Choice(CELL* head, CELL* insert)
 {
+	//指定された場所の要素を代入
 	head = insert->next;
 
 	if (head != nullptr) {
@@ -316,11 +294,15 @@ void Choice(CELL* head, CELL* insert)
 	}
 }
 
+//要素の編集
 void Edit(CELL* head, CELL* insert, const char* str)
 {
+	//指定された場所の要素を代入
 	head = insert->next;
 
 	if (head != nullptr){
+
+		//指定された場所に変更後の文字列をコピー
 		strcpy_s(head->str, 8, str);
 
 		printf("%s に変更されました。\n", head->str);
@@ -328,79 +310,98 @@ void Edit(CELL* head, CELL* insert, const char* str)
 	else {
 		printf("指定された番号に要素はありません。\n");
 	}
-
-	
 }
 
-void Delete(CELL* head, CELL* insert, int itr, int& listSize)
-{	
+//要素の削除
+void Delete(CELL* head, int itr, int& listSize){
+
 	//要素数のカウント
 	Count(head, listSize);
 
-	CELL* p = head;
+	CELL* deleteCell = head;
 
+	//先頭の要素だった時
 	if (itr == 0) {
-		CELL* q;
-		q = p->next->next;
-		p->next = q;
+		CELL* newheadCell;
+		//先頭の繋ぎ変え
+		newheadCell = deleteCell->next->next;
+		deleteCell->next = newheadCell;	
 		printf("要素番号 %d番 の削除が完了しました。\n",itr);
 	}
+	//先頭以外の場合
 	else {
 
+		//指定した要素番号がリストにあるか確認
 		if (itr < listSize) {
+
+			//指定した部分まで辿る
 			for (int i = 0; i <= itr; i++) {
-				p = p->next;
+				deleteCell = deleteCell->next;
 			}
 
-			if (p->next == nullptr) {
-				p->prev->next = nullptr;
-				p->prev = nullptr;
+			//最後尾を削除する場合
+			if (deleteCell->next == nullptr) {
+				deleteCell->prev->next = nullptr;
+				deleteCell->prev = nullptr;
 			}
+			//途中の間にある要素を削除する場合
 			else {
-				p->prev->next = p->next;
-				p->next->prev = p->prev;
-				p->next = nullptr;
-				p->prev = nullptr;
+				deleteCell->prev->next = deleteCell->next;
+				deleteCell->next->prev = deleteCell->prev;
+				deleteCell->next = nullptr;
+				deleteCell->prev = nullptr;
 			}
 			printf("要素番号 %d番 の削除が完了しました。\n",itr);
 		}
+		//なかった場合
 		else {
 			printf("指定された場所に要素はありません\n");
 		}
 	}
 }
 
-void Replace(CELL* head,int itr1, int itr2, int& listSize)
-{
+//要素の並び替え
+void Replace(CELL* head,int itr1, int itr2, int& listSize){
+
 	//要素数のカウント
 	Count(head, listSize);
 
-	CELL* changeCELL1;
-	CELL* changeCELL2;
+	//1つ目に指定したセル
+	CELL* changeSetCellOne;
+	char setCellDataOne[8];
 
-	char a[8];
-	char b[8];
+	//2つ目に指定したセル
+	CELL* changeSetCellTwo;
+	char setCellDataTwo[8];
 
+	//指定した要素番号がリストにあるか確認
 	if (itr1 < listSize && itr2 < listSize) {
-		changeCELL1 = getInsertListAddress(head, itr1);
-		changeCELL2 = getInsertListAddress(head, itr2);
 
-		strcpy_s(a, 8, changeCELL1->next->str);
-		strcpy_s(b, 8, changeCELL2->next->str);
+		//それぞれの番号まで辿る
+		changeSetCellOne = getInsertListAddress(head, itr1);
+		changeSetCellTwo = getInsertListAddress(head, itr2);
 
-		head = changeCELL1->next;
-		strcpy_s(head->str, 8, b);
+		//並び替えるデータをコピー
+		strcpy_s(setCellDataOne, 8, changeSetCellOne->next->str);
+		strcpy_s(setCellDataTwo, 8, changeSetCellTwo->next->str);
 
-		head = changeCELL2->next;
-		strcpy_s(head->str, 8, a);
+		//1つ目のデータを2つ目の場所にコピー
+		head = changeSetCellOne->next;
+		strcpy_s(head->str, 8, setCellDataTwo);
 
-		printf("%d番 %s と %d番 %s を並び替えました\n", itr1, a, itr2, b);
+		//2つ目のデータを1つ目の場所にコピー
+		head = changeSetCellTwo->next;
+		strcpy_s(head->str, 8, setCellDataOne);
+
+		printf("%d番 %s と %d番 %s を並び替えました\n", itr1, setCellDataOne, itr2, setCellDataTwo);
 	}
+	//なかった場合
 	else {
 		printf("指定した要素番号に要素が入ってないものが含まれています。\n");
 	}
 }
 
+//指定された要素番号を辿る
 CELL* getInsertListAddress(CELL* head, int iterator)
 {
 	for (int i = 0; i < iterator; i++)
