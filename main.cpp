@@ -400,16 +400,16 @@ void Replace(CELL* head,int itr1, int itr2, int& listSize){
 }
 
 //w’è‚³‚ê‚½—v‘f”Ô†‚ğ’H‚é
-CELL* getInsertListAddress(CELL* head, int iterator)
-{
-	for (int i = 0; i < iterator; i++)
-	{
-		if (head->next)
-		{
+CELL* getInsertListAddress(CELL* head, int iterator){
+
+	for (int i = 0; i < iterator; i++){
+
+		if (head->next){
+
 			head = head->next;
 		}
-		else
-		{
+		else{
+
 			break;
 		}
 	}
