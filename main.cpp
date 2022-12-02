@@ -143,16 +143,12 @@ int main() {
 				system("cls");
 				printf("[リスト要素の挿入]\n");
 
-				/*while (head.next != nullptr) {
-					head.prev->next = head.next;
-					++iterator;
-				}*/
-
-				printf("要素を追加する場所を指定してください。\n");
+				Count(&head, iterator);
+				
+				printf("場所を指定してください。指定しないで文字列を入力すると最後尾に挿入されます。\n");
 				scanf_s("%d", &iterator);
 				
-
-				printf("追加する要素の値を入力してください。\n");
+				printf("追加する要素の文字列を入力してください。\n");
 				scanf_s("%s", str, 8);
 				insertCell = getInsertListAddress(&head, iterator);
 				Create(insertCell, str);
