@@ -19,6 +19,7 @@ int Count(CELL* head,int &listSize);
 void Choice(CELL* head, CELL* insert);
 void Edit(CELL* head,CELL* insert, const char* str);
 void Delete(CELL* head, CELL* insert, int itr, int& listSize);
+void Replace(CELL* head,int itr1, int itr2, int& listSize);
 CELL* getInsertListAddress(CELL* head, int iterator);
 
 int main() {
@@ -224,7 +225,30 @@ int main() {
 		}
 
 		if (state == 5) {
-			printf("要素の並び替え\n");
+			if (isDraw[0] == 0){
+				system("cls");
+				printf("要素の並び替え\n");
+
+				printf("並び変えたい要素番号を指定してください。\n");
+				printf("一つ目 ");
+				scanf_s("%d", &userInput[0]);
+
+				printf("二つ目 ");
+				scanf_s("%d", &userInput[1]);
+
+				Replace(&head, userInput[0], userInput[1], listSize);
+
+				printf("\n-------------------------------\n");
+				printf("9.要素操作に戻る\n");
+				scanf_s("%d", &userInput[2]);
+
+				isDraw[0] = 1;
+			}
+			
+			if (userInput[2] == 9) {
+				isDraw[0] = 0;
+				state = 0;
+			}
 		}
 	}
 
@@ -343,6 +367,37 @@ void Delete(CELL* head, CELL* insert, int itr, int& listSize)
 		else {
 			printf("指定された場所に要素はありません\n");
 		}
+	}
+}
+
+void Replace(CELL* head,int itr1, int itr2, int& listSize)
+{
+	//要素数のカウント
+	Count(head, listSize);
+
+	CELL* changeCELL1;
+	CELL* changeCELL2;
+
+	char a[8];
+	char b[8];
+
+	if (itr1 < listSize && itr2 < listSize) {
+		changeCELL1 = getInsertListAddress(head, itr1);
+		changeCELL2 = getInsertListAddress(head, itr2);
+
+		strcpy_s(a, 8, changeCELL1->next->str);
+		strcpy_s(b, 8, changeCELL2->next->str);
+
+		head = changeCELL1->next;
+		strcpy_s(head->str, 8, b);
+
+		head = changeCELL2->next;
+		strcpy_s(head->str, 8, a);
+
+		printf("%d番 %s と %d番 %s を並び替えました\n", itr1, a, itr2, b);
+	}
+	else {
+		printf("指定した要素番号に要素が入ってないものが含まれています。\n");
 	}
 }
 
