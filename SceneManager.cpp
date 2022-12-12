@@ -2,7 +2,7 @@
 
 SceneManager::SceneManager()
 {
-	sceneNo = GAME_TITLE;
+	sceneNo = GAME_PLAY;
 }
 
 SceneManager::~SceneManager()

@@ -1,5 +1,7 @@
 #include "DxLib.h"
 #include "SceneManager.h"
+#include "Player.h"
+#include "Enemy.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "LE2A_23_ワクイダイキ";
@@ -9,6 +11,8 @@ const int WIN_WIDTH = 1280;
 
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 720;
+
+bool Enemy::isAlive;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
@@ -42,7 +46,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 	SceneManager* gameScene = SceneManager::GetInstance();
-	int sceneNo = GAME_TITLE;
+	int sceneNo = GAME_PLAY;
+
+	Player* player = new Player;
+	Enemy* enemy1 = new Enemy;
+	Enemy* enemy2 = new Enemy;
+	Enemy* enemy3 = new Enemy;
+
+	//敵を配置
+	enemy1->Initalize(300, 100);
+	enemy2->Initalize(640, 100);
+	enemy3->Initalize(900, 100);
 
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
@@ -68,68 +82,27 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		//シーン番号を取得
 		sceneNo = gameScene->GetSceneNo();
-
-		//gameTitleシーン
-		if (sceneNo == GameScene::GAME_TITLE) {
-
-			//spaceKeyで次のシーンへ
-			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
-				gameScene->ChangeScene(GameScene::NEW_GAME);
-			}
-
-		}
-		//newGameシーン
-		if (sceneNo == GameScene::NEW_GAME) {
-
-			//spaceKeyで次のシーンへ
-			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
-				gameScene->ChangeScene(GameScene::GAME_PLAY);
-			}
-
-		}
+		
 		//gamePlayシーン
 		if (sceneNo == GameScene::GAME_PLAY) {
 
-			//spaceKeyで次のシーンへ
-			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
-				gameScene->ChangeScene(GameScene::GAME_CLEAR);
+			player->Update(keys, oldkeys);
+
+			//攻撃したら敵は死ぬ
+			if (player->GetIsAttack() == true) {
+				enemy1->Dead();
 			}
 		}
-		//gameClearシーン
-		if (sceneNo == GameScene::GAME_CLEAR) {
-
-			//spaceKeyで次のシーンへ
-			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
-				gameScene->ChangeScene(GameScene::GAME_TITLE);
-			}
-
-		}
-
 
 		// 描画処理
-		//gameTitleシーン
-		if (sceneNo == GameScene::GAME_TITLE) {
-			DrawBox(0, 0, 1280, 720, GetColor(255, 125, 125), true);
-			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
-			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
-		}
-		//newGameシーン
-		if (sceneNo == GameScene::NEW_GAME) {
-			DrawBox(0, 0, 1280, 720, GetColor(125, 255, 125), true);
-			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
-			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
-		}
 		//gamePlayシーン
 		if (sceneNo == GameScene::GAME_PLAY) {
-			DrawBox(0, 0, 1280, 720, GetColor(125, 125, 255), true);
-			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
-			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
-		}
-		//gameClearシーン
-		if (sceneNo == GameScene::GAME_CLEAR) {
-			DrawBox(0, 0, 1280, 720, GetColor(125, 125, 125), true);
-			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
-			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
+			player->Draw();
+			enemy1->Draw();
+			enemy2->Draw();
+			enemy3->Draw();
+
+			DrawFormatString(0, 0, GetColor(255, 255, 255), "SpaceKeyで攻撃");
 		}
 
 		//---------  ここまでにプログラムを記述  ---------//
@@ -152,6 +125,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// Dxライブラリ終了処理
 	DxLib_End();
 
+	delete enemy1;
+	delete enemy2;
+	delete enemy3;
+	delete player;
 	// 正常終了
 	return 0;
 }
