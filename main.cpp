@@ -1,13 +1,14 @@
 #include "DxLib.h"
+#include "SceneManager.h"
 
 // ウィンドウのタイトルに表示する文字列
-const char TITLE[] = "LE1A_25_ワクイダイキ";
+const char TITLE[] = "LE2A_23_ワクイダイキ";
 
 // ウィンドウ横幅
-const int WIN_WIDTH = 600;
+const int WIN_WIDTH = 1280;
 
 // ウィンドウ縦幅
-const int WIN_HEIGHT = 400;
+const int WIN_HEIGHT = 720;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
@@ -40,7 +41,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 	// ゲームループで使う変数の宣言
-
+	SceneManager* gameScene = SceneManager::GetInstance();
+	int sceneNo = GAME_TITLE;
 
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
@@ -62,11 +64,73 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 画面クリア
 		ClearDrawScreen();
 		//---------  ここからプログラムを記述  ----------//
-
 		// 更新処理
 
+		//シーン番号を取得
+		sceneNo = gameScene->GetSceneNo();
+
+		//gameTitleシーン
+		if (sceneNo == GameScene::GAME_TITLE) {
+
+			//spaceKeyで次のシーンへ
+			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
+				gameScene->ChangeScene(GameScene::NEW_GAME);
+			}
+
+		}
+		//newGameシーン
+		if (sceneNo == GameScene::NEW_GAME) {
+
+			//spaceKeyで次のシーンへ
+			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
+				gameScene->ChangeScene(GameScene::GAME_PLAY);
+			}
+
+		}
+		//gamePlayシーン
+		if (sceneNo == GameScene::GAME_PLAY) {
+
+			//spaceKeyで次のシーンへ
+			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
+				gameScene->ChangeScene(GameScene::GAME_CLEAR);
+			}
+		}
+		//gameClearシーン
+		if (sceneNo == GameScene::GAME_CLEAR) {
+
+			//spaceKeyで次のシーンへ
+			if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0) {
+				gameScene->ChangeScene(GameScene::GAME_TITLE);
+			}
+
+		}
+
+
 		// 描画処理
-		DrawFormatString(0, 0, GetColor(255, 255, 255), "test");
+		//gameTitleシーン
+		if (sceneNo == GameScene::GAME_TITLE) {
+			DrawBox(0, 0, 1280, 720, GetColor(255, 125, 125), true);
+			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
+			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
+		}
+		//newGameシーン
+		if (sceneNo == GameScene::NEW_GAME) {
+			DrawBox(0, 0, 1280, 720, GetColor(125, 255, 125), true);
+			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
+			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
+		}
+		//gamePlayシーン
+		if (sceneNo == GameScene::GAME_PLAY) {
+			DrawBox(0, 0, 1280, 720, GetColor(125, 125, 255), true);
+			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
+			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
+		}
+		//gameClearシーン
+		if (sceneNo == GameScene::GAME_CLEAR) {
+			DrawBox(0, 0, 1280, 720, GetColor(125, 125, 125), true);
+			DrawFormatString(0, 0, GetColor(255, 255, 255), "sceneNo : %d", sceneNo);
+			DrawFormatString(0, 20, GetColor(255, 255, 255), "SpaceKeyでシーン切り替え");
+		}
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
