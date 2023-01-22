@@ -50,13 +50,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	Player* player = new Player;
 	Enemy* enemy1 = new Enemy;
-	Enemy* enemy2 = new Enemy;
-	Enemy* enemy3 = new Enemy;
 
 	//敵を配置
-	enemy1->Initalize(300, 100);
-	enemy2->Initalize(640, 100);
-	enemy3->Initalize(900, 100);
+	enemy1->Initalize(620, 100);
 
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
@@ -87,6 +83,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		if (sceneNo == GameScene::GAME_PLAY) {
 
 			player->Update(keys, oldkeys);
+			enemy1->Update();
 
 			//攻撃したら敵は死ぬ
 			if (player->GetIsAttack() == true) {
@@ -99,8 +96,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		if (sceneNo == GameScene::GAME_PLAY) {
 			player->Draw();
 			enemy1->Draw();
-			enemy2->Draw();
-			enemy3->Draw();
 
 			DrawFormatString(0, 0, GetColor(255, 255, 255), "SpaceKeyで攻撃");
 		}
@@ -126,8 +121,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	DxLib_End();
 
 	delete enemy1;
-	delete enemy2;
-	delete enemy3;
 	delete player;
 	// 正常終了
 	return 0;
