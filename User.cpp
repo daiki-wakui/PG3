@@ -2,17 +2,21 @@
 
 User::User()
 {
-
-	
+	printf("–¼‘O‚ð“ü‚ê‚Ä‰º‚³‚¢\n");
+	scanf_s("%s", nameStr, 64);
 }
 
 User::~User()
 {
 }
 
-void User::Initaize(int id, const char* userClass, const char* name)
+void User::Initaize(int id, const char* userClass)
 {
-	this->name = name;
+
+
+	//this->name = name;
+
+	this->name = nameStr;
 	this->id = id;
 	this->userClass = userClass;
 }

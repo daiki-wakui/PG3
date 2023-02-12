@@ -10,13 +10,18 @@ using namespace std;
 
 int main() {
 
-
+	int i = 0;
+	
 
 	User user1;
 	User user2;
 
-	user1.Initaize(1001, "LE2A", "タロウ");
-	user2.Initaize(1002, "LE2A", "ワクイ");
+
+
+	//scanf_s("%d", i);
+
+	user1.Initaize(1001, "LE2A");
+	user2.Initaize(1002, "LE2A");
 	
 	user1.Name();
 	user2.Name();

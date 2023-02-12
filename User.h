@@ -10,12 +10,14 @@ private:
 	const char* name;
 	const char* userClass;
 
+	char nameStr[64];
+
 public:
 
 	User();
 	~User();
 
-	void Initaize(int id, const char* userClass , const char* name);
+	void Initaize(int id, const char* userClass);
 	void Name();
 };
 
