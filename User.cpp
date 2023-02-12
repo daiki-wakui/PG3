@@ -35,12 +35,12 @@ void User::Name()
 	printf("ID:%d ƒNƒ‰ƒX:%s –¼‘O:%s\n", id, userClass, name);
 }
 
-void User::addTask()
+void User::AddTask()
 {
-	task->addTask();
+	task->AddTask();
 }
 
 void User::TaskView()
 {
-	task->ToDo();
+	task->DrawTask();
 }

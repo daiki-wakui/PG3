@@ -46,7 +46,7 @@ public:
 	Task();
 	~Task();
 
-	void addTask();
-	void ToDo();
+	void AddTask();
+	void DrawTask();
 };
 

@@ -8,7 +8,7 @@ Task::~Task()
 {
 }
 
-void Task::addTask()
+void Task::AddTask()
 {
 
 	printf("‘è–¼‚ð“ü‚ê‚Ä‰º‚³‚¢\n");
@@ -39,7 +39,7 @@ void Task::addTask()
 	itr++;
 }
 
-void Task::ToDo()
+void Task::DrawTask()
 {
 
 	for (auto itr = title.begin(); itr != title.end(); ++itr) {

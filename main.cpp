@@ -66,7 +66,7 @@ int main() {
 				}
 
 				scanf_s("%d", &userInput);
-				user[userInput]->addTask();
+				user[userInput]->AddTask();
 
 
 			}

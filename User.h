@@ -28,7 +28,7 @@ public:
 	bool GetInfo() { return info; }
 	int GetId() { return id; }
 
-	void addTask();
+	void AddTask();
 	void TaskView();
 };
 
