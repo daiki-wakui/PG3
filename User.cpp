@@ -29,9 +29,21 @@ void User::Initaize(int id)
 	this->name = nameStr;
 	this->id = id;
 	this->userClass = classStr;
+
+	task->Initaize();
 }
 
 void User::Name()
 {
-	printf("ID : %d クラス : %s  名前 : %s\n", id, userClass, name);
+	printf("ID:%d クラス:%s 名前:%s\n", id, userClass, name);
+}
+
+void User::addTask()
+{
+	task->addTask();
+}
+
+void User::TaskView()
+{
+	task->ToDo();
 }
