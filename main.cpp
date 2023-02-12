@@ -15,8 +15,8 @@ int main() {
 	User user1;
 	User user2;
 
-	user1.Initaize("aio",1001);
-	user2.Initaize("ワクイ",1002);
+	user1.Initaize(1001, "LE2A", "タロウ");
+	user2.Initaize(1002, "LE2A", "ワクイ");
 	
 	user1.Name();
 	user2.Name();

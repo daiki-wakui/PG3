@@ -8,13 +8,14 @@ private:
 
 	int id;
 	const char* name;
+	const char* userClass;
 
 public:
 
 	User();
 	~User();
 
-	void Initaize(const char* name, int id);
+	void Initaize(int id, const char* userClass , const char* name);
 	void Name();
 };
 
