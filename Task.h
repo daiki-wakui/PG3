@@ -12,5 +12,7 @@ private:
 public:
 	Task();
 	~Task();
+
+	void ToDo();
 };
 

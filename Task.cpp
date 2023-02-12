@@ -7,3 +7,7 @@ Task::Task()
 Task::~Task()
 {
 }
+
+void Task::ToDo()
+{
+}

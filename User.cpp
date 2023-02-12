@@ -2,23 +2,33 @@
 
 User::User()
 {
-	printf("名前を入れて下さい\n");
-	scanf_s("%s", nameStr, 64);
+	info = false;
 }
 
 User::~User()
 {
 }
 
-void User::Initaize(int id, const char* userClass)
+User* User::Create(int id) {
+	User* user = new User();
+
+	return user;
+}
+
+void User::Initaize(int id)
 {
+	printf("クラスを入れて下さい\n");
+	scanf_s("%s", classStr, 32);
 
+	printf("名前を入れて下さい\n");
+	scanf_s("%s", nameStr, 64);
 
+	info = true;
 	//this->name = name;
 
 	this->name = nameStr;
 	this->id = id;
-	this->userClass = userClass;
+	this->userClass = classStr;
 }
 
 void User::Name()

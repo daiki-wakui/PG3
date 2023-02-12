@@ -10,21 +10,70 @@ using namespace std;
 
 int main() {
 
+	
+
 	int i = 0;
+	int info = 0;
+	int id = 1000;
+
+	User* user[3];
+	for (int i = 0; i < 3; i++) {
+		user[i] = User::Create(id);
+	}
 	
 
-	User user1;
-	User user2;
+	int windowState = 0;
+
+	while (true) {
+
+		if (windowState == 0) {
+			system("cls");
+			printf("操作を選択してください。\n");
+			printf("1:担当者の表示\n");
+			printf("2:担当者の新規作成\n");
+			scanf_s("%d", &i);
+			windowState = i;
+		}
+		
+		if (windowState == 1) {
+			system("cls");
+			for (int i = 0; i < 3; i++) {
+				if (user[i]->GetInfo() == true) {
+					user[i]->Name();
+				}
+			}
+
+			printf("\n-------------------------------\n");
+
+			scanf_s("%d", &i);
+
+			windowState = i;
+		}
+
+		//ユーザーの新規作成
+		if (windowState == 2) {
+			system("cls");
+			for (int i = 0; i < 3; i++) {
+
+				if (user[i]->GetInfo() == false) {
+					user[i]->Initaize(id);
+					id++;
+					break;
+				}
+				else {
+					continue;
+				}
+			}
+
+			windowState = 0;
+		}
 
 
+		
+		//user[1]->Name();
+	}
 
-	//scanf_s("%d", i);
 
-	user1.Initaize(1001, "LE2A");
-	user2.Initaize(1002, "LE2A");
-	
-	user1.Name();
-	user2.Name();
 
 	system("pause");
 	return 0;
