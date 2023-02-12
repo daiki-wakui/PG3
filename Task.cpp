@@ -24,24 +24,19 @@ void Task::addTask()
 	printf("—Dæ“x‚ð“ü‚ê‚Ä‰º‚³‚¢\n");
 	cin >> tmpPriorityStr[itr];
 	priorityList[itr] = tmpPriorityStr[itr].c_str();
-	content.push_back(priorityList[itr]);
+	priority.push_back(priorityList[itr]);
 
 	printf("ŠúŒÀ‚ð“ü‚ê‚Ä‰º‚³‚¢\n");
 	cin >> tmpLimitStr[itr];
 	limitList[itr] = tmpLimitStr[itr].c_str();
-	content.push_back(limitList[itr]);
+	limit.push_back(limitList[itr]);
 
 	printf("Š®—¹‚µ‚Ä‚é‚©“ü‚ê‚Ä‚­‚¾‚³‚¢\n");
 	cin >> tmpFinishStr[itr];
-	finishList[itr] = tmpLimitStr[itr].c_str();
-	content.push_back(finishList[itr]);
+	finishList[itr] = tmpFinishStr[itr].c_str();
+	finish.push_back(finishList[itr]);
 
 	itr++;
-}
-
-void Task::Initaize()
-{
-	
 }
 
 void Task::ToDo()
@@ -51,15 +46,20 @@ void Task::ToDo()
 		cout << *itr << "\n";
 	}
 
+	printf("\n-------------------------------\n");
 	for (auto itr = content.begin(); itr != content.end(); ++itr) {
 		cout << *itr << "\n";
 	}
-
+	printf("\n-------------------------------\n");
 	for (auto itr = priority.begin(); itr != priority.end(); ++itr) {
 		cout << *itr << "\n";
 	}
-
+	printf("\n-------------------------------\n");
 	for (auto itr = limit.begin(); itr != limit.end(); ++itr) {
+		cout << *itr << "\n";
+	}
+	printf("\n-------------------------------\n");
+	for (auto itr = finish.begin(); itr != finish.end(); ++itr) {
 		cout << *itr << "\n";
 	}
 }

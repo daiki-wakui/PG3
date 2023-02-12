@@ -24,13 +24,10 @@ void User::Initaize(int id)
 	scanf_s("%s", nameStr, 64);
 
 	info = true;
-	//this->name = name;
 
 	this->name = nameStr;
 	this->id = id;
 	this->userClass = classStr;
-
-	task->Initaize();
 }
 
 void User::Name()

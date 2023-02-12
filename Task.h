@@ -9,30 +9,37 @@ class Task
 {
 private:
 
-	list<const char*> title;	//タスク内容
-	list<const char*> content;	//内容
-	list<const char*> priority;	//優先度
-	list<const char*> limit;	//期限
-	list<const char*> finish;	//完了か
-
-	char titleStr[128];
-	char contentStr[128];
-	char prioritystr[32];
-	char limitstr[64];
-	char finishstr[32];
-
-	string tmpTitleStr[64];
-	string tmpContentStr[64];
-	string tmpPriorityStr[64];
-	string tmpLimitStr[64];
-	string tmpFinishStr[64];
-
+	//タスク題名
+	list<const char*> title;
+	char titleStr[128];		//追加する文字列を入れる変数
+	string tmpTitleStr[64];	//追加する文字列のコピー変数
 	const char* titleList[64] = {};
+
+	//タスク内容
+	list<const char*> content;
+	char contentStr[128];	//追加する文字列を入れる変数
+	string tmpContentStr[64];	//追加する文字列のコピー変数
 	const char* contentList[64] = {};
+
+	//タスク優先度
+	list<const char*> priority;
+	char prioritystr[32];	//追加する文字列を入れる変数
+	string tmpPriorityStr[64];	//追加する文字列のコピー変数
 	const char* priorityList[64] = {};
+
+	//期限
+	list<const char*> limit;
+	char limitstr[64];	//追加する文字列を入れる変数
+	string tmpLimitStr[64];	//追加する文字列のコピー変数
 	const char* limitList[64] = {};
+
+	//完了済みか
+	list<const char*> finish;
+	char finishstr[32];	//追加する文字列を入れる変数
+	string tmpFinishStr[64];	//追加する文字列のコピー変数
 	const char* finishList[64] = {};
 
+	//タスクの要素数を数える
 	int itr;
 
 public:
@@ -40,7 +47,6 @@ public:
 	~Task();
 
 	void addTask();
-	void Initaize();
 	void ToDo();
 };
 
