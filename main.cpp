@@ -11,18 +11,16 @@ using namespace std;
 
 int main() {
 
-	int i = 0;
-	int info = 0;
+	int inputInfo = 0;
 	int id = 1000;
-
 	int userInput;
+	int windowState = 0;
 
+	//三人チーム
 	User* user[3];
 	for (int i = 0; i < 3; i++) {
 		user[i] = User::Create(id);
 	}
-
-	int windowState = 0;
 
 	while (true) {
 
@@ -32,13 +30,14 @@ int main() {
 			printf("操作を選択してください。\n");
 			printf("1:担当者の表示\n");
 			printf("2:担当者の新規作成\n");
-			scanf_s("%d", &i);
-			windowState = i;
+			scanf_s("%d", &inputInfo);
+			windowState = inputInfo;
 		}
 		
-
+		//担当者情報
 		if (windowState == 1) {
 			system("cls");
+			//名前の表示
 			for (int i = 0; i < 3; i++) {
 				if (user[i]->GetInfo() == true) {
 					user[i]->Name();
@@ -51,27 +50,30 @@ int main() {
 			printf("1:タスクの表示\n");
 			printf("9:戻る\n");
 
-			scanf_s("%d", &i);
+			scanf_s("%d", &inputInfo);
 
-			if (i == 9) {
+			//初期画面に戻る
+			if (inputInfo == 9) {
 				windowState = 0;
 			}
 
-			if (i == 0) {
-				printf("誰にタスクをふる？\n");
+			//タスクの追加
+			if (inputInfo == 0) {
+				printf("誰にタスクをふりますか？\n");
 				
 				for (int i = 0; i < 3; i++) {
 					printf("%d :", i);
 					user[i]->Name();
 				}
 
+				//入力して登録
 				scanf_s("%d", &userInput);
 				user[userInput]->AddTask();
-
-
 			}
 			
-			if (i == 1) {
+			//タスクの表示
+			if (inputInfo == 1) {
+
 				for (int i = 0; i < 3; i++) {
 					printf("担当者 100%d\n",i);
 					user[i]->TaskView();
@@ -79,7 +81,7 @@ int main() {
 
 				printf("9:戻る\n");
 				scanf_s("%d", &userInput);
-				i = userInput;
+				inputInfo = userInput;
 			}
 
 			printf("\n-------------------------------\n");

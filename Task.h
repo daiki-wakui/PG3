@@ -40,13 +40,15 @@ private:
 	const char* finishList[64] = {};
 
 	//タスクの要素数を数える
-	int itr;
+	int size;
 
 public:
 	Task();
 	~Task();
 
+	//タスクを追加する
 	void AddTask();
+	//タスクを表示する
 	void DrawTask();
 };
 

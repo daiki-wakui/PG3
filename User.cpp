@@ -2,7 +2,7 @@
 
 User::User()
 {
-	info = false;
+	userInfo = false;
 }
 
 User::~User()
@@ -23,24 +23,26 @@ void User::Initaize(int id)
 	printf("名前を入れて下さい\n");
 	scanf_s("%s", nameStr, 64);
 
-	info = true;
+	userInfo = true;
 
+	//担当者の情報を設定
 	this->name = nameStr;
 	this->id = id;
-	this->userClass = classStr;
+	this->className = classStr;
 }
 
 void User::Name()
 {
-	printf("ID:%d クラス:%s 名前:%s\n", id, userClass, name);
+	//名前表示
+	printf("ID:%d クラス:%s 名前:%s\n", id, className, name);
 }
 
 void User::AddTask()
 {
-	task->AddTask();
+	task->AddTask();	//呼び出し
 }
 
 void User::TaskView()
 {
-	task->DrawTask();
+	task->DrawTask();	//呼び出し
 }
